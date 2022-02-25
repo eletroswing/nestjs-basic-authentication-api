@@ -21,4 +21,11 @@ describe('AppController (e2e)', () => {
       .expect(200)
       .expect({"message":"online"});
   });
+
+  it('/api/v1 (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/api/v1/')
+      .expect(200)
+      .expect({"message":"api-online"});
+  });
 });
