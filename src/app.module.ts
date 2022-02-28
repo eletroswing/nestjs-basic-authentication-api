@@ -1,13 +1,29 @@
+import { RouterModule } from '@nestjs/core';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
+//services
 import { PrismaService } from './prisma.service';
-import { ApiController } from './api/api.controller';
+
+//modules
+import { V1Module } from './api/v1/v1.module';
+import { ApiModule } from './api/api.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController, ApiController],
+  imports: [V1Module, RouterModule.register([
+    {
+      path: 'api',
+      module: ApiModule,
+      children: [
+        {
+          path: 'v1',
+          module: V1Module,
+        },
+      ],
+    },
+  ])],
+  controllers: [AppController],
   providers: [AppService, PrismaService],
 })
 export class AppModule {}
