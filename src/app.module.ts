@@ -4,7 +4,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 //services
-import { PrismaService } from './prisma.service';
 
 //modules
 import { V1Module } from './api/v1/v1.module';
@@ -24,6 +23,6 @@ import { ApiModule } from './api/api.module';
     },
   ])],
   controllers: [AppController],
-  providers: [AppService, PrismaService],
+  providers: [AppService],
 })
 export class AppModule {}
