@@ -1,6 +1,5 @@
 import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { BullModule } from '@nestjs/bull';
-import { ConfigModule } from '@nestjs/config';
 
 //controllers
 import { HomeController } from './home/home.controller';
@@ -16,7 +15,6 @@ import { SignUpMiddleware } from './middlewares/signup.middleware';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
     MailerModule.forRoot({
       transport: {
         host: process.env.MAIL_HOST,
