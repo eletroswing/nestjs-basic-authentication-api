@@ -29,6 +29,7 @@ import { SignUpMiddleware } from './middlewares/signup.middleware';
       redis: {
         host: process.env.REDIS_HOST,
         port: Number(process.env.REDIS_PORT),
+        password: process.env.REDIS_PASS
       },
     }),
     BullModule.registerQueue({
