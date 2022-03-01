@@ -5,6 +5,7 @@ interface SignupDTO {
     readonly username: string;
     readonly password: string;
     readonly redirecturl: string;
+    readonly redirecterrorurl: string;
 }
 
 export { SignupDTO }

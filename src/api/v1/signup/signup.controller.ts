@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, HttpStatus, Options } from '@nestjs/common';
 import { PrismaService } from '../../../prisma.service';
 import { SignupDTO } from './signup-dto';
 import { v4 } from 'uuid';
@@ -11,17 +11,17 @@ export class SignupController {
     constructor(private prisma: PrismaService, private sendMailService: SendMailProducerService) {}
     @Post()
     async handle(@Body() signupDTO: SignupDTO){
-        const { name, username, email, password, redirecturl} = signupDTO;
+        const { name, username, email, password, redirecturl, redirecterrorurl} = signupDTO;
 
         //if missing data from request
-        if(name == undefined || email == undefined || username == undefined || password == undefined || redirecturl == undefined){
+        if(name == undefined || email == undefined || username == undefined || password == undefined || redirecturl == undefined || redirecterrorurl == undefined){
             throw new HttpException({
                 statusCode: HttpStatus.NOT_ACCEPTABLE,
                 error: 'data',
                 message: 'missing-data',
               }, HttpStatus.NOT_ACCEPTABLE);
         }
-        
+
         //verify if user exists on database
         let CurrentUserEmail = await this.prisma.user.findFirst({
             where: {
@@ -101,7 +101,7 @@ export class SignupController {
         }
 
         //send email to user
-        let Link = process.env.URL + `/api/v1/signup-confirmation?redirecturl=${redirecturl}&&token=${Token}` 
+        let Link = process.env.URL + `/api/v1/signup-confirmation?redirecturl=${redirecturl}&&token=${Token}&&redirecterror=${redirecterrorurl}` 
         await this.sendMailService.SendMail({
             from: "<no-reply@nestjsauth.com.br>", 
             to: email, 
@@ -111,5 +111,9 @@ export class SignupController {
         })
 
         return {statusCode: 201, message: 'look-email'}
+    }
+    @Options()
+    async SendOptions(){
+        return {statusCode: 200, fields: ['name', 'username', 'email', 'password', 'redirecturl', 'redirecterrorurl']}
     }
 }

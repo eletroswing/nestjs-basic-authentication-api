@@ -4,6 +4,7 @@ import { BullModule } from '@nestjs/bull';
 //controllers
 import { HomeController } from './home/home.controller';
 import { SignupController } from './signup/signup.controller';
+import { SignupConfirmationController } from './signup-confirmation/signup-confirmation.controller';
 
 //providers(services)
 import { PrismaService } from '../../prisma.service';
@@ -36,7 +37,7 @@ import { SignUpMiddleware } from './middlewares/signup.middleware';
       name: 'sendmail-queue',
     }),
   ],
-  controllers: [HomeController, SignupController],
+  controllers: [HomeController, SignupController, SignupConfirmationController],
   providers: [PrismaService, SendMailProducerService, SendMailConsumer],
 })
 
