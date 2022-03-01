@@ -1,8 +1,14 @@
 import { InjectQueue } from "@nestjs/bull";
 import { Injectable } from "@nestjs/common";
 import { Queue } from "bull";
-import {SendMailDTO} from "./sendMail-dto";
 
+interface SendMailDTO {
+    from: string;
+    to: string;
+    subject: string;
+    text: string;
+    html: string;
+}
 
 @Injectable()
 class SendMailProducerService{

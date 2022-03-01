@@ -1,7 +1,14 @@
 import { Process, Processor } from "@nestjs/bull";
 import { Job } from "bull";
-import {SendMailDTO} from "./sendMail-dto";
 import { MailerService } from "@nestjs-modules/mailer";
+
+interface SendMailDTO {
+    from: string;
+    to: string;
+    subject: string;
+    text: string;
+    html: string;
+}
 
 @Processor('sendmail-queue')
 class SendMailConsumer{
