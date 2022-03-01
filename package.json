@@ -20,10 +20,6 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json --detectOpenHandles"
   },
-  "engines" : { 
-    "npm" : "8.3.2",
-    "node" : "14.15.4"
-  },
   "dependencies": {
     "@nestjs-modules/mailer": "^1.6.1",
     "@nestjs/bull": "^0.5.0",
