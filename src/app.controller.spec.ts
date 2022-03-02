@@ -16,7 +16,7 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('should return {"message":"online"}', () => {
-      expect(appController.handle()).toStrictEqual({"message":"online"});
+      expect(appController.handle()).toStrictEqual({ message: 'online' });
     });
   });
 });

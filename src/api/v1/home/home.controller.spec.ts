@@ -13,6 +13,6 @@ describe('HomeController', () => {
   });
 
   it('should return api online', () => {
-    expect(controller.handle()).toStrictEqual({"message":"api-online"});
+    expect(controller.handle()).toStrictEqual({ message: 'api-online' });
   });
 });

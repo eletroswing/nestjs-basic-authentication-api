@@ -61,17 +61,17 @@ export class RegenerateRefreshTokenController {
     }
     //yes
     else {
-        //both are from same owner
-        if(JWTTokenOnDb.userId != RefreshTokenOnDb.userId){
-            throw new HttpException(
-                {
-                  statusCode: HttpStatus.FORBIDDEN,
-                  error: 'tokens',
-                  message: 'different-token-owner',
-                },
-                HttpStatus.FORBIDDEN,
-              );
-        }
+      //both are from same owner
+      if (JWTTokenOnDb.userId != RefreshTokenOnDb.userId) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.FORBIDDEN,
+            error: 'tokens',
+            message: 'different-token-owner',
+          },
+          HttpStatus.FORBIDDEN,
+        );
+      }
       //is refresh token still not expirated
       if (dayjs(dayjs().unix()).isAfter(RefreshTokenOnDb.expiresIn)) {
         //no
@@ -86,10 +86,19 @@ export class RegenerateRefreshTokenController {
       } else {
         //yes
         //regenerate tokens
-        let newRefreshToken = await this.refreshTokenGenerate.generateRefreshToken(RefreshTokenOnDb.userId)
-        let newJWTtoken = await this.jwttokenService.generateJWTToken(JWTTokenOnDb.userId)
+        let newRefreshToken =
+          await this.refreshTokenGenerate.generateRefreshToken(
+            RefreshTokenOnDb.userId,
+          );
+        let newJWTtoken = await this.jwttokenService.generateJWTToken(
+          JWTTokenOnDb.userId,
+        );
         //return tokens
-        return { statusCode: 200, refresh_token: newRefreshToken, jwtToken: newJWTtoken}
+        return {
+          statusCode: 200,
+          refresh_token: newRefreshToken,
+          jwtToken: newJWTtoken,
+        };
       }
     }
   }

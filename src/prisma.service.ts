@@ -8,10 +8,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     await this.$connect();
     //make password hash when update or create user
     this.$use(async (params, next) => {
-      if (
-        (params.action == 'create') &&
-        params.model == 'User'
-      ) {
+      if (params.action == 'create' && params.model == 'User') {
         let user = params.args.data;
         let salt = bcrypt.genSaltSync(10);
         let hash = bcrypt.hashSync(user.password, salt);
@@ -20,7 +17,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
       }
 
       if (
-        (params.action == 'update') &&
+        params.action == 'update' &&
         params.model == 'User' &&
         params.args.data.password != undefined
       ) {

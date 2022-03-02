@@ -1,6 +1,6 @@
 interface RegenerateRefreshToken {
-    readonly refreshToken: string;
-    readonly jwtToken: string;
-}   
+  readonly refreshToken: string;
+  readonly jwtToken: string;
+}
 
-export { RegenerateRefreshToken }
+export { RegenerateRefreshToken };

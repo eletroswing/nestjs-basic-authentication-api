@@ -4,7 +4,7 @@ import {
   Body,
   HttpException,
   HttpStatus,
-  Options
+  Options,
 } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
@@ -36,15 +36,14 @@ export class SigninController {
     }
     //get user from db
     let UserFromDb = await this.prisma.user.findFirst({
-        where: {
-            email: email,
-            verified: true
-        }
-    })
+      where: {
+        email: email,
+        verified: true,
+      },
+    });
 
-    
     //user exists?
-    if(UserFromDb == null){
+    if (UserFromDb == null) {
       //if no
       throw new HttpException(
         {
@@ -54,11 +53,10 @@ export class SigninController {
         },
         HttpStatus.FORBIDDEN,
       );
-    }
-    else{
+    } else {
       //if yes
       //password match?
-      if(!bcrypt.compareSync(password ,UserFromDb.password)){
+      if (!bcrypt.compareSync(password, UserFromDb.password)) {
         throw new HttpException(
           {
             statusCode: HttpStatus.FORBIDDEN,
@@ -67,28 +65,26 @@ export class SigninController {
           },
           HttpStatus.FORBIDDEN,
         );
-      }
-      else{
+      } else {
         //generate jwt token (double?)
         let JWTtoken = await this.jwttokenService.generateJWTToken(
-          UserFromDb.id
-        )
+          UserFromDb.id,
+        );
         //generate refresh token
         let refreshtoken = await this.refreshTokenGenerate.generateRefreshToken(
-            UserFromDb.id,
+          UserFromDb.id,
         );
         //return response to user
         return {
           statusCode: 200,
           refresh_token: refreshtoken,
-          jwt_token: JWTtoken
+          jwt_token: JWTtoken,
         };
-
       }
     }
   }
   @Options()
-  async SendOptions(){
-      return {statusCode: 200, fields: ['email', 'password']}
+  async SendOptions() {
+    return { statusCode: 200, fields: ['email', 'password'] };
   }
 }
