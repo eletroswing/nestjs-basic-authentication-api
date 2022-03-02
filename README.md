@@ -14,3 +14,6 @@
 <h4> SIGNIN:
 <h6>POST /api/v1/signin: (receive login/password) returns refresh token(long: 60 minutes) and jwt token(short: 60 seconds)</h6>
 <h6>OPTIONS /api/v1/signin: return signin fields</h6>
+<br />
+<h4> APP FLUX:
+<h6>POST /api/v1/regenerate-token: (receive refreshtoken, jwttoken(can be expired)): generate new tokens</h6>

@@ -23,6 +23,7 @@ import { SendMailConsumer } from '../../jobs/sendmail/sendmail-consumer';
 
 //middlewares
 import { SignUpMiddleware } from './middlewares/signup.middleware';
+import { RegenerateRefreshTokenController } from './regenerate-refresh-token/regenerate-refresh-token.controller';
 
 @Module({
   imports: [
@@ -51,7 +52,7 @@ import { SignUpMiddleware } from './middlewares/signup.middleware';
       name: 'sendmail-queue',
     }),
   ],
-  controllers: [HomeController, SignupController, SignupConfirmationController, SigninController],
+  controllers: [HomeController, SignupController, SignupConfirmationController, SigninController, RegenerateRefreshTokenController],
   providers: [PrismaService, SendMailProducerService, SendMailConsumer, RefreshTokenService, JwttokenService, DefaultTokenService],
 })
 
