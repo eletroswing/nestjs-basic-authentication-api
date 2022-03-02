@@ -81,11 +81,9 @@ export class V1Module implements NestModule {
     consumer
       .apply(SignUpMiddleware)
       .forRoutes({ path: '/api/v1/signup', method: RequestMethod.POST });
-    consumer
-      .apply(IsAuthenticated)
-      .forRoutes({
-        path: '/api/v1/authenticated-route',
-        method: RequestMethod.GET,
-      });
+    consumer.apply(IsAuthenticated).forRoutes({
+      path: '/api/v1/authenticated-route',
+      method: RequestMethod.GET,
+    });
   }
 }
