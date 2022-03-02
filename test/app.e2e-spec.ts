@@ -59,7 +59,7 @@ describe('SignIn User (e2e)', () => {
   });
 
   it('/api/v1/signup (POST): Create User: create user: Faker', () => {
-    let pass = faker.internet.password();
+    const pass = faker.internet.password();
     return request(app.getHttpServer())
       .post('/api/v1/signup')
       .send({
@@ -78,7 +78,7 @@ describe('SignIn User (e2e)', () => {
   });
 
   it('/api/v1/signup (POST): Create User: NO CREATE', () => {
-    let pass = faker.internet.password();
+    const pass = faker.internet.password();
     return request(app.getHttpServer())
       .post('/api/v1/signup')
       .send({

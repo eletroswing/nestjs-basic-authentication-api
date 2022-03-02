@@ -33,7 +33,7 @@ export class RegenerateRefreshTokenController {
     }
 
     //find refresh token on db
-    let RefreshTokenOnDb = await this.prisma.token.findFirst({
+    const RefreshTokenOnDb = await this.prisma.token.findFirst({
       where: {
         token: refreshToken,
         identifier: 'auth-refresh-token',
@@ -41,7 +41,7 @@ export class RegenerateRefreshTokenController {
     });
 
     //find jwt on db
-    let JWTTokenOnDb = await this.prisma.token.findFirst({
+    const JWTTokenOnDb = await this.prisma.token.findFirst({
       where: {
         token: jwtToken,
         identifier: 'auth-jwt-token',
@@ -86,11 +86,11 @@ export class RegenerateRefreshTokenController {
       } else {
         //yes
         //regenerate tokens
-        let newRefreshToken =
+        const newRefreshToken =
           await this.refreshTokenGenerate.generateRefreshToken(
             RefreshTokenOnDb.userId,
           );
-        let newJWTtoken = await this.jwttokenService.generateJWTToken(
+        const newJWTtoken = await this.jwttokenService.generateJWTToken(
           JWTTokenOnDb.userId,
         );
         //return tokens

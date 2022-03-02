@@ -6,7 +6,6 @@ import {
   HttpStatus,
   Options,
 } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 
 import { PrismaService } from '../../../prisma.service';
@@ -35,7 +34,7 @@ export class SigninController {
       );
     }
     //get user from db
-    let UserFromDb = await this.prisma.user.findFirst({
+    const UserFromDb = await this.prisma.user.findFirst({
       where: {
         email: email,
         verified: true,
@@ -67,11 +66,11 @@ export class SigninController {
         );
       } else {
         //generate jwt token (double?)
-        let JWTtoken = await this.jwttokenService.generateJWTToken(
+        const JWTtoken = await this.jwttokenService.generateJWTToken(
           UserFromDb.id,
         );
         //generate refresh token
-        let refreshtoken = await this.refreshTokenGenerate.generateRefreshToken(
+        const refreshtoken = await this.refreshTokenGenerate.generateRefreshToken(
           UserFromDb.id,
         );
         //return response to user
