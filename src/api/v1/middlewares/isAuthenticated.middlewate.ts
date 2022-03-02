@@ -17,8 +17,8 @@ export class IsAuthenticated implements NestMiddleware {
         message: 'undefined-bearer-token',
       });
     } else {
-      let token = req.headers.authorization.trim().replace('Bearer ', '');
-      let TokenInDb = await this.prisma.token.findFirst({
+      const token = req.headers.authorization.trim().replace('Bearer ', '');
+      const TokenInDb = await this.prisma.token.findFirst({
         where: {
           token: token,
           identifier: 'auth-jwt-token',
