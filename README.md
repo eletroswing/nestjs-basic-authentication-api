@@ -17,3 +17,4 @@
 <br />
 <h4> APP FLUX:
 <h6>POST /api/v1/regenerate-token: (receive refreshtoken, jwttoken(can be expired)): generate new tokens</h6>
+<h6>GET /api/v1/authenticated-route: (valid bearer token): authenticated route with middleware</h6>

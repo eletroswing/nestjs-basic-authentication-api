@@ -1,4 +1,9 @@
-import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
+import {
+  Module,
+  NestModule,
+  MiddlewareConsumer,
+  RequestMethod,
+} from '@nestjs/common';
 import { BullModule } from '@nestjs/bull';
 import { JwtModule } from '@nestjs/jwt';
 
@@ -7,6 +12,8 @@ import { HomeController } from './home/home.controller';
 import { SignupController } from './signup/signup.controller';
 import { SignupConfirmationController } from './signup-confirmation/signup-confirmation.controller';
 import { SigninController } from './signin/signin.controller';
+import { RegenerateRefreshTokenController } from './regenerate-refresh-token/regenerate-refresh-token.controller';
+import { AuthenticatedRouteController } from './authenticated-route/authenticated-route.controller';
 
 //providers(services)
 import { PrismaService } from '../../prisma.service';
@@ -22,8 +29,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { SendMailConsumer } from '../../jobs/sendmail/sendmail-consumer';
 
 //middlewares
+import { IsAuthenticated } from './middlewares/isAuthenticated.middlewate';
 import { SignUpMiddleware } from './middlewares/signup.middleware';
-import { RegenerateRefreshTokenController } from './regenerate-refresh-token/regenerate-refresh-token.controller';
 
 @Module({
   imports: [
@@ -45,21 +52,37 @@ import { RegenerateRefreshTokenController } from './regenerate-refresh-token/reg
       redis: {
         host: process.env.REDIS_HOST,
         port: Number(process.env.REDIS_PORT),
-        password: process.env.REDIS_PASS
+        password: process.env.REDIS_PASS,
       },
     }),
     BullModule.registerQueue({
       name: 'sendmail-queue',
     }),
   ],
-  controllers: [HomeController, SignupController, SignupConfirmationController, SigninController, RegenerateRefreshTokenController],
-  providers: [PrismaService, SendMailProducerService, SendMailConsumer, RefreshTokenService, JwttokenService, DefaultTokenService],
+  controllers: [
+    HomeController,
+    SignupController,
+    SignupConfirmationController,
+    SigninController,
+    RegenerateRefreshTokenController,
+    AuthenticatedRouteController,
+  ],
+  providers: [
+    PrismaService,
+    SendMailProducerService,
+    SendMailConsumer,
+    RefreshTokenService,
+    JwttokenService,
+    DefaultTokenService,
+  ],
 })
-
 export class V1Module implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(SignUpMiddleware)
-      .forRoutes({path: '/api/v1/signup', method: RequestMethod.POST});
+      .forRoutes({ path: '/api/v1/signup', method: RequestMethod.POST });
+      consumer
+      .apply(IsAuthenticated)
+      .forRoutes({ path: '/api/v1/authenticated-route', method: RequestMethod.GET });
   }
 }
