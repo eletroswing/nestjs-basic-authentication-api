@@ -7,45 +7,41 @@ import { JwtService } from '@nestjs/jwt';
 export class IsAuthenticated implements NestMiddleware {
   constructor(private prisma: PrismaService, private jwtservice: JwtService) {}
   async use(req: Request, res: Response, next: NextFunction) {
-    if (req.headers.authorization == undefined || req.headers.authorization.trim().replace('Bearer', '') == '') {
-      res
-        .status(HttpStatus.FORBIDDEN)
-        .json({
+    if (
+      req.headers.authorization == undefined ||
+      req.headers.authorization.trim().replace('Bearer', '') == ''
+    ) {
+      res.status(HttpStatus.FORBIDDEN).json({
+        statusCode: HttpStatus.FORBIDDEN,
+        error: 'authorization',
+        message: 'undefined-bearer-token',
+      });
+    } else {
+      let token = req.headers.authorization.trim().replace('Bearer ', '');
+      let TokenInDb = await this.prisma.token.findFirst({
+        where: {
+          token: token,
+          identifier: 'auth-jwt-token',
+        },
+      });
+      if (TokenInDb == null) {
+        res.status(HttpStatus.FORBIDDEN).json({
           statusCode: HttpStatus.FORBIDDEN,
           error: 'authorization',
-          message: 'undefined-bearer-token',
+          message: 'token-dont-exists',
         });
-    }
-    else{
-        let token = req.headers.authorization.trim().replace('Bearer ', '');
-        let TokenInDb = await this.prisma.token.findFirst({
-            where: {
-                token: token,
-                identifier: 'auth-jwt-token'
-            }
-        })
-        if(TokenInDb == null){
-            res
-            .status(HttpStatus.FORBIDDEN)
-            .json({
-              statusCode: HttpStatus.FORBIDDEN,
-              error: 'authorization',
-              message: 'token-dont-exists',
-            });
-        }else{
-            try{
-                this.jwtservice.verify(token)
-                next();
-            }catch(error){
-                res
-                .status(HttpStatus.FORBIDDEN)
-                .json({
-                  statusCode: HttpStatus.FORBIDDEN,
-                  error: 'authorization',
-                  message: 'token-expirated'
-                });
-            }
+      } else {
+        try {
+          this.jwtservice.verify(token);
+          next();
+        } catch (error) {
+          res.status(HttpStatus.FORBIDDEN).json({
+            statusCode: HttpStatus.FORBIDDEN,
+            error: 'authorization',
+            message: 'token-expirated',
+          });
         }
+      }
     }
   }
 }
