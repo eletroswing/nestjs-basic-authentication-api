@@ -18,6 +18,18 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
         user.password = hash;
         params.args.data = user;
       }
+
+      if (
+        (params.action == 'update') &&
+        params.model == 'User' &&
+        params.args.data.password != undefined
+      ) {
+        let user = params.args.data;
+        let salt = bcrypt.genSaltSync(10);
+        let hash = bcrypt.hashSync(user.password, salt);
+        user.password = hash;
+        params.args.data = user;
+      }
       return next(params);
     });
   }

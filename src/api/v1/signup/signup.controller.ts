@@ -6,9 +6,11 @@ import * as dayjs from 'dayjs';
 import { SendMailProducerService } from '../../../jobs/sendmail/sendmail-producer-service';
 import { ConfigModule } from '@nestjs/config';
 
+import { DefaultTokenService } from '../token-generation/default-token/default-token.service';
+
 @Controller('signup')
 export class SignupController {
-    constructor(private prisma: PrismaService, private sendMailService: SendMailProducerService) {}
+    constructor(private prisma: PrismaService, private sendMailService: SendMailProducerService, private defaultToken: DefaultTokenService) {}
     @Post()
     async handle(@Body() signupDTO: SignupDTO){
         const { name, username, email, password, redirecturl, redirecterrorurl} = signupDTO;
@@ -68,7 +70,7 @@ export class SignupController {
         
         //token processing 
         let ExpirationTime = dayjs().add(15, 'minute').unix(); //time for expiration
-        let Token = v4(); //token
+        let Token = this.defaultToken.generate(); //token
 
         //create or update token
         //already exist token?
@@ -101,7 +103,7 @@ export class SignupController {
         }
 
         //send email to user
-        let Link = process.env.URL + `/api/v1/signup-confirmation?redirecturl=${redirecturl}&&token=${Token}&&redirecterror=${redirecterrorurl}` 
+        let Link = process.env.URL + `/api/v1/signup-confirmation?token=${Token}&&redirecturl=${redirecturl}&&redirecterror=${redirecterrorurl}` 
         await this.sendMailService.SendMail({
             from: "<no-reply@nestjsauth.com.br>", 
             to: email, 
