@@ -8,11 +8,8 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../../prisma.service';
 import { SignupDTO } from './signup-dto';
-import { v4 } from 'uuid';
 import * as dayjs from 'dayjs';
 import { SendMailProducerService } from '../../../jobs/sendmail/sendmail-producer-service';
-import { ConfigModule } from '@nestjs/config';
-
 import { DefaultTokenService } from '../token-generation/default-token/default-token.service';
 
 @Controller('signup')
@@ -94,12 +91,12 @@ export class SignupController {
     }
 
     //token processing
-    let ExpirationTime = dayjs().add(15, 'minute').unix(); //time for expiration
-    let Token = this.defaultToken.generate(); //token
+    const ExpirationTime = dayjs().add(15, 'minute').unix(); //time for expiration
+    const Token = this.defaultToken.generate(); //token
 
     //create or update token
     //already exist token?
-    let TokenOnDatabase = await this.prisma.token.findFirst({
+    const TokenOnDatabase = await this.prisma.token.findFirst({
       where: {
         userId: CurrentUserEmail.id,
         identifier: 'account-confirmation-token',
@@ -128,7 +125,7 @@ export class SignupController {
     }
 
     //send email to user
-    let Link =
+    const Link =
       process.env.URL +
       `/api/v1/signup-confirmation?token=${Token}&&redirecturl=${redirecturl}&&redirecterror=${redirecterrorurl}`;
     await this.sendMailService.SendMail({
