@@ -70,9 +70,8 @@ export class SigninController {
           UserFromDb.id,
         );
         //generate refresh token
-        const refreshtoken = await this.refreshTokenGenerate.generateRefreshToken(
-          UserFromDb.id,
-        );
+        const refreshtoken =
+          await this.refreshTokenGenerate.generateRefreshToken(UserFromDb.id);
         //return response to user
         return {
           statusCode: 200,

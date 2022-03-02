@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 @Injectable()
 export class DefaultTokenService {
   generate() {
-    let token =
+    const token =
       v4() +
       '-' +
       v4() +

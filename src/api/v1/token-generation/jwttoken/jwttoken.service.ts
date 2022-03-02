@@ -17,8 +17,8 @@ export class JwttokenService {
       },
     });
 
-    let token = this.jwtService.sign({ userId: userId });
-    let expirationtime = dayjs().add(60, 'second').unix();
+    const token = this.jwtService.sign({ userId: userId });
+    const expirationtime = dayjs().add(60, 'second').unix();
 
     if (TokenInDb == null) {
       await this.prisma.token.create({

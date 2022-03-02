@@ -21,7 +21,7 @@ export class RefreshTokenService {
     });
 
     let token = this.defaulToken.generate();
-    let expirationtime = dayjs().add(60, 'minute').unix();
+    const expirationtime = dayjs().add(60, 'minute').unix();
 
     if (TokenInDb == null) {
       await this.prisma.token.create({
