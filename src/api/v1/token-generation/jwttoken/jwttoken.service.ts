@@ -10,7 +10,7 @@ export class JwttokenService {
     if (userId == undefined || userId.trim() == '') {
       throw new Error('userID required to generate jwt token');
     }
-    let TokenInDb = await this.prisma.token.findFirst({
+    const TokenInDb = await this.prisma.token.findFirst({
       where: {
         userId: userId,
         identifier: 'auth-jwt-token',

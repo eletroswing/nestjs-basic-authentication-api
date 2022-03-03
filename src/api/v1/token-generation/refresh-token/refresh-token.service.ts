@@ -13,14 +13,14 @@ export class RefreshTokenService {
     if (userId == undefined || userId.trim() == '') {
       throw new Error('userID required to generate refresh token');
     }
-    let TokenInDb = await this.prisma.token.findFirst({
+    const TokenInDb = await this.prisma.token.findFirst({
       where: {
         userId: userId,
         identifier: 'auth-refresh-token',
       },
     });
 
-    let token = this.defaulToken.generate();
+    const token = this.defaulToken.generate();
     const expirationtime = dayjs().add(60, 'minute').unix();
 
     if (TokenInDb == null) {

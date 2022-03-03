@@ -15,7 +15,7 @@ export class SignupConfirmationController {
     const { redirecturl, token, redirecterror } = signupConfirmationDTO;
 
     //get token in database
-    let TokenInDb = await this.prisma.token.findFirst({
+    const TokenInDb = await this.prisma.token.findFirst({
       where: {
         identifier: 'account-confirmation-token',
         token: token,
