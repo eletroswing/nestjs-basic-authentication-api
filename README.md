@@ -1,6 +1,7 @@
 <p align="center">
   <h1>NestJS basic api for authentication</h1>
 </p>
+[![CodeFactor](https://www.codefactor.io/repository/github/eletroswing/nestjs-basic-authentication-api/badge)]
 <br />
 <h3>Routes:</h3>
 <h6>GET /: return {"message": "online"} with status 200 </h6>
