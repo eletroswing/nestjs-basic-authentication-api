@@ -4,7 +4,7 @@ import { SignupConfirmationDTO } from './signupConfirmation-dto';
 import { PrismaService } from '../../../prisma.service';
 import * as dayjs from 'dayjs';
 
-@Controller('signup-confirmation')
+@Controller('callback/signup')
 export class SignupConfirmationController {
   constructor(private prisma: PrismaService) {}
   @Get()

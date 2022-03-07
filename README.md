@@ -10,7 +10,7 @@
 <h4> SIGNUP:
 <h6>POST /api/v1/signup: create users on db </h6>
 <h6>OPTIONS /api/v1/signup: return signup fields</h6>
-<h6>GET /api/v1/signup-confirmation?token=&&redirecturl=&&redirecterrorurl=: confirm user </h6>
+<h6>GET /api/v1/callback/signup?token=&&redirecturl=&&redirecterrorurl=: confirm user </h6>
 <br />
 <h4> SIGNIN:
 <h6>POST /api/v1/signin: (receive login/password) returns refresh token(long: 60 minutes) and jwt token(short: 60 seconds)</h6>
