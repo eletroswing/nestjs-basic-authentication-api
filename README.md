@@ -15,6 +15,10 @@
 <h6>POST /api/v1/signin: (receive login/password) returns refresh token(long: 60 minutes) and jwt token(short: 60 seconds)</h6>
 <h6>OPTIONS /api/v1/signin: return signin fields</h6>
 <br />
+<h4> RESET PASS:
+<h6>POST /api/v1/reset-password: (receive email, send code to email, and response with token): change password</h6>
+<h6>POST /api/v1/callback/reset-password: (receive code sended to email, token, and password): change password</h6>
+<br />
 <h4> APP FLUX:
 <h6>POST /api/v1/regenerate-token: (receive refreshtoken, jwttoken(can be expired)): generate new tokens</h6>
 <h6>GET /api/v1/authenticated-route: (valid bearer token): authenticated route with middleware</h6>

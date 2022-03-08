@@ -14,6 +14,7 @@ import { SignupConfirmationController } from './signup-confirmation/signup-confi
 import { SigninController } from './signin/signin.controller';
 import { RegenerateRefreshTokenController } from './regenerate-refresh-token/regenerate-refresh-token.controller';
 import { AuthenticatedRouteController } from './authenticated-route/authenticated-route.controller';
+import { ResetPasswordController } from './reset-password/reset-password.controller';
 
 //providers(services)
 import { PrismaService } from '../../prisma.service';
@@ -31,6 +32,7 @@ import { SendMailConsumer } from '../../jobs/sendmail/sendmail-consumer';
 //middlewares
 import { IsAuthenticated } from './middlewares/isAuthenticated.middlewate';
 import { SignUpMiddleware } from './middlewares/signup.middleware';
+import { ResetPasswordConfirmationController } from './reset-password-confirmation/reset-password-confirmation.controller';
 
 @Module({
   imports: [
@@ -66,6 +68,8 @@ import { SignUpMiddleware } from './middlewares/signup.middleware';
     SigninController,
     RegenerateRefreshTokenController,
     AuthenticatedRouteController,
+    ResetPasswordController,
+    ResetPasswordConfirmationController,
   ],
   providers: [
     PrismaService,

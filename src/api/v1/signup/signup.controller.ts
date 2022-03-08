@@ -127,7 +127,7 @@ export class SignupController {
     //send email to user
     const Link =
       process.env.URL +
-      `/api/v1/signup-confirmation?token=${Token}&&redirecturl=${redirecturl}&&redirecterror=${redirecterrorurl}`;
+      `/api/v1/callback/signup?token=${Token}&&redirecturl=${redirecturl}&&redirecterror=${redirecterrorurl}`;
     await this.sendMailService.SendMail({
       from: '<no-reply@nestjsauth.com.br>',
       to: email,
